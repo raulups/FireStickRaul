@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -84,7 +83,6 @@ class HomeViewModel @Inject constructor(
         }
         viewModelScope.launch {
             featured
-                .distinctUntilChanged()
                 .collectLatest { items ->
                     heroIndex.value = 0
                     if (items.size < 2) return@collectLatest
