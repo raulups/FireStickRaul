@@ -10,6 +10,7 @@ data class DiscoverResponse(
 
 @Serializable
 data class DiscoverItem(
+    val id: Int = 0,
     val title: String? = null,
     val name: String? = null,
     @SerialName("backdrop_path") val backdropPath: String? = null,

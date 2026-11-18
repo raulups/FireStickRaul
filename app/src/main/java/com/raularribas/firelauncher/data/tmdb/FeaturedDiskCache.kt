@@ -13,6 +13,7 @@ import javax.inject.Singleton
 
 @Serializable
 data class FeaturedSnapshot(
+    val version: Int = 0,
     val providers: List<ProviderDto> = emptyList(),
     val providersAt: Long = 0,
     val featured: Map<String, CachedFeatured> = emptyMap()

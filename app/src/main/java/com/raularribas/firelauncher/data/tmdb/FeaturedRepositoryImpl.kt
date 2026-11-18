@@ -9,6 +9,9 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +22,10 @@ class FeaturedRepositoryImpl @Inject constructor(
     private val diskCache: FeaturedDiskCache,
     private val preloader: BackdropPreloader
 ) : FeaturedRepository {
+
+    private data class Candidate(val item: DiscoverItem, val isTv: Boolean) {
+        val key: String get() = (if (isTv) "tv:" else "movie:") + item.id
+    }
 
     private val refreshMutex = Mutex()
     private val loadMutex = Mutex()
@@ -54,18 +61,21 @@ class FeaturedRepositoryImpl @Inject constructor(
                 current.featured[provider.id.toString()]?.let { now - it.savedAt > FEATURED_TTL_MS } ?: true
             }
 
-            val fetched = coroutineScope {
-                stale.map { provider ->
-                    async { provider.id to runCatching { fetchFeatured(provider) }.getOrNull().orEmpty() }
-                }.awaitAll()
-            }.filter { it.second.isNotEmpty() }
+            if (stale.isNotEmpty()) {
+                val trendingRank = runCatching { fetchTrendingRank() }.getOrDefault(emptyMap())
+                val fetched = coroutineScope {
+                    stale.map { provider ->
+                        async { provider.id to runCatching { fetchFeatured(provider, trendingRank) }.getOrNull().orEmpty() }
+                    }.awaitAll()
+                }.filter { it.second.isNotEmpty() }
 
-            if (fetched.isNotEmpty()) {
-                current = current.copy(
-                    featured = current.featured + fetched.associate { (id, items) -> id.toString() to CachedFeatured(now, items) }
-                )
-                fetched.forEach { (id, _) -> domainCache.remove(id) }
-                changed = true
+                if (fetched.isNotEmpty()) {
+                    current = current.copy(
+                        featured = current.featured + fetched.associate { (id, items) -> id.toString() to CachedFeatured(now, items) }
+                    )
+                    fetched.forEach { (id, _) -> domainCache.remove(id) }
+                    changed = true
+                }
             }
 
             if (changed) {
@@ -80,7 +90,11 @@ class FeaturedRepositoryImpl @Inject constructor(
     }
 
     private suspend fun snapshot(): FeaturedSnapshot =
-        snapshot ?: loadMutex.withLock { snapshot ?: diskCache.read().also { snapshot = it } }
+        snapshot ?: loadMutex.withLock {
+            snapshot ?: diskCache.read()
+                .let { if (it.version == CACHE_VERSION) it else FeaturedSnapshot(version = CACHE_VERSION) }
+                .also { snapshot = it }
+        }
 
     private suspend fun fetchProviders(): List<ProviderDto> = coroutineScope {
         val key = TmdbConfig.apiKey
@@ -89,17 +103,42 @@ class FeaturedRepositoryImpl @Inject constructor(
         (movies.await() + tv.await()).distinctBy { it.id }
     }
 
-    private suspend fun fetchFeatured(provider: ProviderDto): List<CachedItem> = coroutineScope {
+    private suspend fun fetchTrendingRank(): Map<String, Int> = coroutineScope {
         val key = TmdbConfig.apiKey
-        val tv = async {
-            api.discoverTv(key, TmdbConfig.REGION, provider.id, TmdbConfig.LANGUAGE).results.map { it to true }
+        val tv = (1..TRENDING_PAGES).map { page -> async { api.trendingTv(key, TmdbConfig.LANGUAGE, page).results } }
+        val movies = (1..TRENDING_PAGES).map { page -> async { api.trendingMovies(key, TmdbConfig.LANGUAGE, page).results } }
+        val rank = HashMap<String, Int>()
+        tv.awaitAll().flatten().forEachIndexed { index, item -> rank.putIfAbsent("tv:${item.id}", index) }
+        movies.awaitAll().flatten().forEachIndexed { index, item -> rank.putIfAbsent("movie:${item.id}", index) }
+        rank
+    }
+
+    private suspend fun fetchFeatured(provider: ProviderDto, trendingRank: Map<String, Int>): List<CachedItem> = coroutineScope {
+        val key = TmdbConfig.apiKey
+        val tvFrom = dateMonthsAgo(TV_RECENT_MONTHS)
+        val movieFrom = dateMonthsAgo(MOVIE_RECENT_MONTHS)
+        val tv = (1..DISCOVER_PAGES).map { page ->
+            async {
+                api.discoverTv(key, TmdbConfig.REGION, provider.id, TmdbConfig.LANGUAGE, tvFrom, page).results.map { Candidate(it, true) }
+            }
         }
-        val movies = async {
-            api.discoverMovie(key, TmdbConfig.REGION, provider.id, TmdbConfig.LANGUAGE).results.map { it to false }
+        val movies = (1..DISCOVER_PAGES).map { page ->
+            async {
+                api.discoverMovie(key, TmdbConfig.REGION, provider.id, TmdbConfig.LANGUAGE, movieFrom, page).results.map { Candidate(it, false) }
+            }
         }
-        (tv.await() + movies.await())
-            .filter { it.first.backdropPath != null }
-            .sortedByDescending { it.first.popularity }
+        val candidates = (tv.awaitAll().flatten() + movies.awaitAll().flatten())
+            .filter { it.item.backdropPath != null }
+            .distinctBy { it.key }
+
+        val trending = candidates
+            .filter { it.key in trendingRank }
+            .sortedBy { trendingRank.getValue(it.key) }
+        val rest = candidates
+            .filter { it.key !in trendingRank }
+            .sortedByDescending { it.item.popularity }
+
+        (trending + rest)
             .take(MAX_ITEMS)
             .map { (item, isTv) ->
                 CachedItem(
@@ -112,9 +151,19 @@ class FeaturedRepositoryImpl @Inject constructor(
             }
     }
 
+    private fun dateMonthsAgo(months: Int): String {
+        val calendar = Calendar.getInstance().apply { add(Calendar.MONTH, -months) }
+        return SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time)
+    }
+
     private companion object {
+        const val CACHE_VERSION = 2
         const val MAX_ITEMS = 8
-        const val FEATURED_TTL_MS = 6 * 60 * 60 * 1_000L
+        const val TRENDING_PAGES = 5
+        const val DISCOVER_PAGES = 3
+        const val TV_RECENT_MONTHS = 6
+        const val MOVIE_RECENT_MONTHS = 18
+        const val FEATURED_TTL_MS = 3 * 60 * 60 * 1_000L
         const val PROVIDERS_TTL_MS = 7 * 24 * 60 * 60 * 1_000L
     }
 }
