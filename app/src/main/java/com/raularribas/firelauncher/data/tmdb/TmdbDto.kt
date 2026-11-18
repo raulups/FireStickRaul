@@ -10,10 +10,23 @@ data class DiscoverResponse(
 
 @Serializable
 data class DiscoverItem(
+    val id: Int = 0,
     val title: String? = null,
     val name: String? = null,
     @SerialName("backdrop_path") val backdropPath: String? = null,
     @SerialName("release_date") val releaseDate: String? = null,
     @SerialName("first_air_date") val firstAirDate: String? = null,
     val popularity: Double = 0.0
+)
+
+@Serializable
+data class ProvidersResponse(
+    val results: List<ProviderDto> = emptyList()
+)
+
+@Serializable
+data class ProviderDto(
+    @SerialName("provider_id") val id: Int,
+    @SerialName("provider_name") val name: String,
+    @SerialName("display_priority") val displayPriority: Int = 999
 )
