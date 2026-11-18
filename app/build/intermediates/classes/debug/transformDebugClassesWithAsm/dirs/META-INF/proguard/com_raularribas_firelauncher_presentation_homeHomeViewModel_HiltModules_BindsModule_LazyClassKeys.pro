@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.raularribas.firelauncher.presentation.home.HomeViewModel

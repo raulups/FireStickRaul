@@ -1,0 +1,10 @@
+R_DEF: Internal format may change without notice
+local
+color background
+drawable banner
+drawable ic_launcher
+string app_name
+string redirect_service_description
+string redirect_service_label
+style Theme.FireLauncher
+xml home_redirect_service

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mi Launcher</string>
+    <string name="redirect_service_label">Mi Launcher: botón Inicio</string>
+    <string name="redirect_service_description">Abre Mi Launcher cuando se muestra la pantalla de inicio de Amazon.</string>
+</resources>

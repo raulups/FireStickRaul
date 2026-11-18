@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.raularribas.firelauncher.app-debug-62:/drawable_ic_launcher.xml.flat",
+        "source": "com.raularribas.firelauncher.app-main-64:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "com.raularribas.firelauncher.app-debug-62:/xml_home_redirect_service.xml.flat",
+        "source": "com.raularribas.firelauncher.app-main-64:/xml/home_redirect_service.xml"
+    },
+    {
+        "merged": "com.raularribas.firelauncher.app-debug-62:/drawable_banner.xml.flat",
+        "source": "com.raularribas.firelauncher.app-main-64:/drawable/banner.xml"
+    }
+]

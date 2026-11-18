@@ -1,0 +1,225 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.raularribas.firelauncher"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="25"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:4:5-67
+11-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:4:22-64
+12
+13    <uses-feature
+13-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:6:5-8:36
+14        android:name="android.software.leanback"
+14-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:7:9-49
+15        android:required="false" />
+15-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:8:9-33
+16    <uses-feature
+16-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:9:5-11:36
+17        android:name="android.hardware.touchscreen"
+17-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:10:9-52
+18        android:required="false" />
+18-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:11:9-33
+19
+20    <queries>
+20-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:13:5-22:15
+21        <intent>
+21-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:14:9-17:18
+22            <action android:name="android.intent.action.MAIN" />
+22-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:13-65
+22-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:21-62
+23
+24            <category android:name="android.intent.category.LAUNCHER" />
+24-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:16:13-73
+24-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:16:23-70
+25        </intent>
+26        <intent>
+26-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:18:9-21:18
+27            <action android:name="android.intent.action.MAIN" />
+27-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:13-65
+27-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:21-62
+28
+29            <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+29-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:20:13-82
+29-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:20:23-79
+30        </intent>
+31    </queries>
+32
+33    <permission
+33-->[androidx.core:core:1.15.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/52a7dc879db6725a6604fbb287314fbb/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
+34        android:name="com.raularribas.firelauncher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+34-->[androidx.core:core:1.15.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/52a7dc879db6725a6604fbb287314fbb/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
+35        android:protectionLevel="signature" />
+35-->[androidx.core:core:1.15.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/52a7dc879db6725a6604fbb287314fbb/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
+36
+37    <uses-permission android:name="com.raularribas.firelauncher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+37-->[androidx.core:core:1.15.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/52a7dc879db6725a6604fbb287314fbb/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
+37-->[androidx.core:core:1.15.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/52a7dc879db6725a6604fbb287314fbb/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
+38
+39    <application
+39-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:24:5-65:19
+40        android:name="com.raularribas.firelauncher.FireLauncherApp"
+40-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:25:9-40
+41        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+41-->[androidx.core:core:1.15.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/52a7dc879db6725a6604fbb287314fbb/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
+42        android:banner="@drawable/banner"
+42-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:26:9-42
+43        android:debuggable="true"
+44        android:extractNativeLibs="false"
+45        android:icon="@drawable/ic_launcher"
+45-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:27:9-45
+46        android:label="@string/app_name"
+46-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:28:9-41
+47        android:supportsRtl="true"
+47-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:29:9-35
+48        android:testOnly="true"
+49        android:theme="@style/Theme.FireLauncher" >
+49-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:30:9-50
+50        <activity
+50-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:32:9-50:20
+51            android:name="com.raularribas.firelauncher.MainActivity"
+51-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:33:13-41
+52            android:clearTaskOnLaunch="true"
+52-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:34:13-45
+53            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|uiMode"
+53-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:35:13-114
+54            android:exported="true"
+54-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:36:13-36
+55            android:launchMode="singleTask"
+55-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:37:13-44
+56            android:screenOrientation="landscape"
+56-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:38:13-50
+57            android:stateNotNeeded="true" >
+57-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:39:13-42
+58            <intent-filter>
+58-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:40:13-44:29
+59                <action android:name="android.intent.action.MAIN" />
+59-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:13-65
+59-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:21-62
+60
+61                <category android:name="android.intent.category.LAUNCHER" />
+61-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:16:13-73
+61-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:16:23-70
+62                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+62-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:20:13-82
+62-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:20:23-79
+63            </intent-filter>
+64            <intent-filter>
+64-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:45:13-49:29
+65                <action android:name="android.intent.action.MAIN" />
+65-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:13-65
+65-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:15:21-62
+66
+67                <category android:name="android.intent.category.HOME" />
+67-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:47:17-73
+67-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:47:27-70
+68                <category android:name="android.intent.category.DEFAULT" />
+68-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:48:17-76
+68-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:48:27-73
+69            </intent-filter>
+70        </activity>
+71
+72        <service
+72-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:52:9-63:19
+73            android:name="com.raularribas.firelauncher.service.HomeRedirectService"
+73-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:53:13-56
+74            android:exported="true"
+74-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:54:13-36
+75            android:label="@string/redirect_service_label"
+75-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:55:13-59
+76            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+76-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:56:13-79
+77            <intent-filter>
+77-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:57:13-59:29
+78                <action android:name="android.accessibilityservice.AccessibilityService" />
+78-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:58:17-92
+78-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:58:25-89
+79            </intent-filter>
+80
+81            <meta-data
+81-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:60:13-62:65
+82                android:name="android.accessibilityservice"
+82-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:61:17-60
+83                android:resource="@xml/home_redirect_service" />
+83-->/Users/raularribas/Desktop/work/FireStickRaul/app/src/main/AndroidManifest.xml:62:17-62
+84        </service>
+85
+86        <activity
+86-->[androidx.compose.ui:ui-tooling-android:1.7.6] /Users/raularribas/.gradle/caches/8.11.1/transforms/8934d3ac70ddf78669128e0631be7a96/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+87            android:name="androidx.compose.ui.tooling.PreviewActivity"
+87-->[androidx.compose.ui:ui-tooling-android:1.7.6] /Users/raularribas/.gradle/caches/8.11.1/transforms/8934d3ac70ddf78669128e0631be7a96/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+88            android:exported="true" />
+88-->[androidx.compose.ui:ui-tooling-android:1.7.6] /Users/raularribas/.gradle/caches/8.11.1/transforms/8934d3ac70ddf78669128e0631be7a96/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+89
+90        <provider
+90-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+91            android:name="androidx.startup.InitializationProvider"
+91-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+92            android:authorities="com.raularribas.firelauncher.androidx-startup"
+92-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+93            android:exported="false" >
+93-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+94            <meta-data
+94-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+95                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+95-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+96                android:value="androidx.startup" />
+96-->[androidx.emoji2:emoji2:1.3.0] /Users/raularribas/.gradle/caches/8.11.1/transforms/6b8c7a322b749ec964d8265886bb1227/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+97            <meta-data
+97-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/raularribas/.gradle/caches/8.11.1/transforms/77406d5da514668ad7419a61a03a8bc3/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
+98                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+98-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/raularribas/.gradle/caches/8.11.1/transforms/77406d5da514668ad7419a61a03a8bc3/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
+99                android:value="androidx.startup" />
+99-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/raularribas/.gradle/caches/8.11.1/transforms/77406d5da514668ad7419a61a03a8bc3/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
+100            <meta-data
+100-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:29:13-31:52
+101                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+101-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:30:17-85
+102                android:value="androidx.startup" />
+102-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:31:17-49
+103        </provider>
+104
+105        <receiver
+105-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:34:9-52:20
+106            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+106-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:35:13-76
+107            android:directBootAware="false"
+107-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:36:13-44
+108            android:enabled="true"
+108-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:37:13-35
+109            android:exported="true"
+109-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:38:13-36
+110            android:permission="android.permission.DUMP" >
+110-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:39:13-57
+111            <intent-filter>
+111-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:40:13-42:29
+112                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+112-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:41:17-91
+112-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:41:25-88
+113            </intent-filter>
+114            <intent-filter>
+114-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:43:13-45:29
+115                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+115-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:44:17-85
+115-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:44:25-82
+116            </intent-filter>
+117            <intent-filter>
+117-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:46:13-48:29
+118                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+118-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:47:17-88
+118-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:47:25-85
+119            </intent-filter>
+120            <intent-filter>
+120-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:49:13-51:29
+121                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+121-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:50:17-95
+121-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/raularribas/.gradle/caches/8.11.1/transforms/c3e2d984b51348731a21b376823716db/transformed/profileinstaller-1.4.1/AndroidManifest.xml:50:25-92
+122            </intent-filter>
+123        </receiver>
+124    </application>
+125
+126</manifest>
