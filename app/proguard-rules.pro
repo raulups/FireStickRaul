@@ -1,0 +1,10 @@
+-keepattributes Signature, InnerClasses, EnclosingMethod, *Annotation*
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+-keep class com.raularribas.firelauncher.data.tmdb.** { *; }
+-keep class com.raularribas.firelauncher.service.** { *; }
+-dontwarn okhttp3.internal.platform.**
+-dontwarn org.conscrypt.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**

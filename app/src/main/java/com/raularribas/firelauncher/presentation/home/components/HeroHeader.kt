@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,55 +23,44 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tv.material3.Button
+import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Text
-import com.raularribas.firelauncher.domain.model.FeaturedContent
+import com.raularribas.firelauncher.presentation.home.HeroUiState
 import com.raularribas.firelauncher.presentation.theme.Accent
+import com.raularribas.firelauncher.presentation.theme.Background
 import com.raularribas.firelauncher.presentation.theme.TextPrimary
 import com.raularribas.firelauncher.presentation.theme.TextSecondary
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
 fun HeroHeader(
-    featured: FeaturedContent?,
-    featuredCount: Int,
-    heroIndex: Int,
+    heroState: StateFlow<HeroUiState>,
     movingLabel: String?,
+    onEditClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.padding(horizontal = 48.dp, vertical = 24.dp)) {
-        Clock(modifier = Modifier.align(Alignment.TopEnd))
-        if (featured != null) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .fillMaxWidth(0.6f),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                Text(
-                    text = "${featured.providerName} · Popular ahora",
-                    color = TextSecondary,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    text = featured.title,
-                    color = TextPrimary,
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = listOf(featured.kind, featured.year).filter { it.isNotBlank() }.joinToString(" · "),
-                    color = TextSecondary,
-                    fontSize = 14.sp
-                )
-                Dots(count = featuredCount, selected = heroIndex % featuredCount.coerceAtLeast(1))
-            }
+        Button(
+            onClick = onEditClick,
+            modifier = Modifier.align(Alignment.TopStart),
+            contentPadding = PaddingValues(horizontal = 18.dp, vertical = 8.dp),
+            colors = ButtonDefaults.colors(
+                containerColor = Color.White.copy(alpha = 0.12f),
+                contentColor = TextPrimary,
+                focusedContainerColor = TextPrimary,
+                focusedContentColor = Background
+            )
+        ) {
+            Text(text = "Editar inicio", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
         }
+        Clock(modifier = Modifier.align(Alignment.TopEnd))
+        FeaturedInfo(heroState = heroState, modifier = Modifier.align(Alignment.BottomStart))
         if (movingLabel != null) {
             Text(
                 text = "Moviendo «$movingLabel» · flechas para mover, OK para soltar",
@@ -80,6 +70,37 @@ fun HeroHeader(
                 modifier = Modifier.align(Alignment.BottomEnd)
             )
         }
+    }
+}
+
+@Composable
+private fun FeaturedInfo(heroState: StateFlow<HeroUiState>, modifier: Modifier = Modifier) {
+    val state by heroState.collectAsStateWithLifecycle()
+    val featured = state.current ?: return
+    Column(
+        modifier = modifier.fillMaxWidth(0.6f),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Text(
+            text = "${featured.providerName} · Popular ahora",
+            color = TextSecondary,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = featured.title,
+            color = TextPrimary,
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = listOf(featured.kind, featured.year).filter { it.isNotBlank() }.joinToString(" · "),
+            color = TextSecondary,
+            fontSize = 14.sp
+        )
+        Dots(count = state.featured.size, selected = state.index % state.featured.size.coerceAtLeast(1))
     }
 }
 
@@ -94,19 +115,11 @@ private fun Clock(modifier: Modifier = Modifier) {
             delay(1_000)
         }
     }
+    val time = timeFormat.format(now)
+    val date = remember(time) { dateFormat.format(now).replaceFirstChar { it.titlecase(locale) } }
     Column(modifier = modifier, horizontalAlignment = Alignment.End) {
-        Text(
-            text = timeFormat.format(now),
-            color = TextPrimary,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Text(
-            text = dateFormat.format(now).replaceFirstChar { it.titlecase(locale) },
-            color = TextSecondary,
-            fontSize = 13.sp,
-            textAlign = TextAlign.End
-        )
+        Text(text = time, color = TextPrimary, fontSize = 30.sp, fontWeight = FontWeight.SemiBold)
+        Text(text = date, color = TextSecondary, fontSize = 13.sp, textAlign = TextAlign.End)
     }
 }
 

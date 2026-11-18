@@ -1,50 +1,36 @@
 package com.raularribas.firelauncher.presentation.home.components
 
-import android.content.pm.PackageManager
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
+import androidx.compose.ui.zIndex
 import androidx.tv.material3.Border
 import androidx.tv.material3.ClickableSurfaceDefaults
-import androidx.tv.material3.Glow
 import androidx.tv.material3.Surface
 import com.raularribas.firelauncher.domain.model.LauncherApp
+import com.raularribas.firelauncher.presentation.common.AppImageView
 import com.raularribas.firelauncher.presentation.home.MoveDirection
 import com.raularribas.firelauncher.presentation.theme.Accent
 import com.raularribas.firelauncher.presentation.theme.TileColor
 import com.raularribas.firelauncher.presentation.theme.TileShape
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-
-sealed interface AppImage {
-    val bitmap: ImageBitmap
-
-    data class Banner(override val bitmap: ImageBitmap) : AppImage
-    data class Icon(override val bitmap: ImageBitmap) : AppImage
-}
 
 @Composable
 fun AppTile(
@@ -57,14 +43,39 @@ fun AppTile(
     onMove: (MoveDirection) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val image by rememberAppImage(app.packageName)
+    var focused by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = when {
+            isMoving && focused -> 1.12f
+            focused -> 1.08f
+            else -> 1f
+        },
+        animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = Spring.StiffnessMediumLow),
+        label = "tileScale"
+    )
+    val elevation by animateFloatAsState(
+        targetValue = if (focused) 1f else 0f,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "tileElevation"
+    )
 
     Surface(
         onClick = onClick,
         onLongClick = onLongClick,
         modifier = modifier
+            .zIndex(if (focused) 1f else 0f)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                shadowElevation = elevation * 24.dp.toPx()
+                shape = TileShape
+                clip = true
+            }
             .focusRequester(focusRequester)
-            .onFocusChanged { if (it.isFocused) onFocused() }
+            .onFocusChanged {
+                focused = it.isFocused
+                if (it.isFocused) onFocused()
+            }
             .onPreviewKeyEvent { event ->
                 if (!isMoving) return@onPreviewKeyEvent false
                 val direction = when (event.key) {
@@ -78,10 +89,7 @@ fun AppTile(
                 true
             },
         shape = ClickableSurfaceDefaults.shape(shape = TileShape),
-        scale = ClickableSurfaceDefaults.scale(focusedScale = if (isMoving) 1.12f else 1.08f),
-        glow = ClickableSurfaceDefaults.glow(
-            focusedGlow = Glow(elevationColor = Color.Black.copy(alpha = 0.7f), elevation = 18.dp)
-        ),
+        scale = ClickableSurfaceDefaults.scale(focusedScale = 1f, pressedScale = 0.97f),
         border = ClickableSurfaceDefaults.border(
             focusedBorder = if (isMoving) Border(BorderStroke(3.dp, Accent), shape = TileShape) else Border.None
         ),
@@ -91,42 +99,10 @@ fun AppTile(
             pressedContainerColor = TileColor
         )
     ) {
-        when (val current = image) {
-            is AppImage.Banner -> Image(
-                bitmap = current.bitmap,
-                contentDescription = app.label,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            is AppImage.Icon -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Image(
-                    bitmap = current.bitmap,
-                    contentDescription = app.label,
-                    modifier = Modifier.size(64.dp)
-                )
-            }
-            null -> Unit
-        }
-    }
-}
-
-@Composable
-private fun rememberAppImage(packageName: String): State<AppImage?> {
-    val packageManager = LocalContext.current.packageManager
-    return produceState<AppImage?>(initialValue = null, packageName) {
-        value = withContext(Dispatchers.IO) {
-            runCatching { loadAppImage(packageManager, packageName) }.getOrNull()
-        }
-    }
-}
-
-private fun loadAppImage(packageManager: PackageManager, packageName: String): AppImage {
-    val component = packageManager.getLeanbackLaunchIntentForPackage(packageName)?.component
-    val banner = component?.let { packageManager.getActivityBanner(it) }
-        ?: packageManager.getApplicationBanner(packageName)
-    return if (banner != null) {
-        AppImage.Banner(banner.toBitmap(640, 360).asImageBitmap())
-    } else {
-        AppImage.Icon(packageManager.getApplicationIcon(packageName).toBitmap(192, 192).asImageBitmap())
+        AppImageView(
+            packageName = app.packageName,
+            label = app.label,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }

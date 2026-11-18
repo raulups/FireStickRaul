@@ -22,4 +22,18 @@ interface TmdbApi {
         @Query("language") language: String,
         @Query("sort_by") sortBy: String = "popularity.desc"
     ): DiscoverResponse
+
+    @GET("watch/providers/movie")
+    suspend fun movieProviders(
+        @Query("api_key") apiKey: String,
+        @Query("watch_region") region: String,
+        @Query("language") language: String
+    ): ProvidersResponse
+
+    @GET("watch/providers/tv")
+    suspend fun tvProviders(
+        @Query("api_key") apiKey: String,
+        @Query("watch_region") region: String,
+        @Query("language") language: String
+    ): ProvidersResponse
 }

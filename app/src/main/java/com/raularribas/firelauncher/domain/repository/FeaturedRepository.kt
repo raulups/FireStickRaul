@@ -4,5 +4,6 @@ import com.raularribas.firelauncher.domain.model.FeaturedContent
 import com.raularribas.firelauncher.domain.model.LauncherApp
 
 interface FeaturedRepository {
-    suspend fun featuredFor(app: LauncherApp): List<FeaturedContent>
+    suspend fun cachedFor(app: LauncherApp): List<FeaturedContent>
+    suspend fun refresh(apps: List<LauncherApp>)
 }
